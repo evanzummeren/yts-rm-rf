@@ -38,19 +38,26 @@ import colors from '../colors.json';
     mounted () {
       this.bgPosition = "0px 0px"
       this.generateLineChart();
-      setInterval(() => { this.changeBgPosition(); }, 300);
+      // setInterval(() => { this.changeBgPosition(); }, 1000);
 
       anime({
         targets: this.$refs.frames,
         translateY: `-${this.videoDetails.timeUnits * 3 * 16}px`,
-        duration: 2000,
+        height: [2*16, 4.2*16, 3.39*16],
+        rotateX: [60,0],
+        rotateY: [0, 0],
+        // rotateZ: [-45, 0],
+        elasticity: 800,
+        duration: 1500,
         easing: 'easeInOutCubic'
       });
+
+      //  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg)
 
       anime({
         targets: 'line',
         opacity: 1,
-        duration: 2000,
+        duration: 1500,
         delay: function(el, i) {
           return i * 100;
         },
@@ -62,7 +69,7 @@ import colors from '../colors.json';
         opacity: 1,
         translateX: [-20, 0],
         translateY: [20, 0],
-        duration: 1500,
+        duration: 1200,
         delay: function(el, i) {
           return i * 100;
         },
@@ -215,15 +222,16 @@ import colors from '../colors.json';
 
 .video__frames {
   width: 6rem;
-  height: 3.39rem;
+  height:2rem;
   background-image: url('../assets/frames.jpg');
   background-size: 948px 550px;
   // background-size: 948px 540px;
-  // filter: grayscale(100%);
+  filter: grayscale(100%);
     background-color: $second-steunkleur;
     background-blend-mode: multiply;
   // mix-blend-mode: multiply;
   opacity: 1;
+   transform-style: preserve-3d;
 }
 
 .svg__element {

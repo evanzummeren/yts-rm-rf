@@ -6,6 +6,7 @@
 </template>
 
 <script>
+
   export default {
     name: "GridVertical"
   }
@@ -28,9 +29,16 @@
   height: 100vh;
   // background: orange;
   border-right: 1px dotted $lines-off;
+  animation: fadein 1.5s;
 }
 
 .grid__vertical:nth-child(3n) {
   border-right: 1px solid $lines;
+  animation: none;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 </style>
