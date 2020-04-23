@@ -17,6 +17,7 @@
     "scroll-snap": "^3.0.1",
     "uuid": "^7.0.3",
     "vue": "^2.6.11",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-scrollto": "^2.18.1"
   },
   "devDependencies": {

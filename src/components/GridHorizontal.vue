@@ -46,6 +46,32 @@
 
         return _.reverse(array);
       },
+      reachBottomAddDays() {
+        console.log('trigger reach bottom add days')
+        this.clock = this.clock.concat(this.addDay());
+        let timeLabels = this.$refs.timenumber;
+
+        this.$nextTick(() => {
+          console.log(timeLabels.length);
+          let newLabels = []
+
+          for (let i = 0; i < timeLabels.length - 24; i++) {
+            timeLabels[i].style.opacity = 1;
+          }
+
+          for (let i = timeLabels.length - 24; i < timeLabels.length; i++) {
+            newLabels.push(timeLabels[i]);
+          }
+
+          anime({
+            targets: newLabels,
+            opacity: 1,
+            duration: 1000,
+            delay: anime.stagger(20, {direction: 'reverse'}),
+            easing: 'easeInOutCubic'
+          });
+        })
+      },
       mountedAnimation() {
         this.$nextTick(() => {
           anime({

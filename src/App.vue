@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="container">
+  <div id="app" ref="container" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
   
     <SingleVideo/>
     <h2 class="date" ref="dateElem">{{day}}</h2> 
@@ -9,7 +9,7 @@
     <div class="app__box--left"></div>
     <div class="app__box--right"></div>
     <GridVertical/>
-    <GridHorizontal/>
+    <GridHorizontal ref="horizontalGrid"/>
   </div>
 </template>
 
@@ -19,10 +19,11 @@ import GridHorizontal from './components/GridHorizontal.vue';
 import SingleVideo from './components/SingleVideo.vue';
 import moment from 'moment';
 import anime from 'animejs';
-// import ScrollSnap from 'scroll-snap';
+import infiniteScroll from 'vue-infinite-scroll'
 
 export default {
   name: 'App',
+  directives: {infiniteScroll},
   components: {
     GridVertical, GridHorizontal, SingleVideo
   },
@@ -30,10 +31,21 @@ export default {
     return {
       day: 29,
       month: '',
-      year: 2020
+      year: 2020,
+      data: [],
+      busy: false
     }
   },
   methods: {
+    loadMore: function() {
+      this.busy = true;
+
+
+      setTimeout(() => {
+        this.$refs.horizontalGrid.reachBottomAddDays();
+        this.busy = false;
+      }, 1000);
+    },
     ordinal(d) {
       if (d > 3 && d < 21)  {
         this.day = `${d}th`;
@@ -71,38 +83,28 @@ export default {
       function repeatOften(timestamp) {
         const timePassed = timestamp - startTime;
 
+        // https://github.com/component/ease/blob/master/index.js
         function ease(n) {
-          n *= 2;
-          if (n < 1) return 0.5 * n * n;
-          return - 0.5 * (--n * (n - 2) - 1);
+          return .5 * (1 - Math.cos(Math.PI * n));
         }
 
         if (timePassed < duration) {
           let p = (timestamp - startTime) / duration;
           let val = ease(p);
-          // console.log('val ', val);
-          // console.log('berekening ', closest + ((scrollPos - closest) * val));
 
           document.documentElement.scrollTop = closest + ((scrollPos - closest) * (1 - val));
 
           requestAnimationFrame(repeatOften);
         } else if (onAnimationCompleteCallback) {
-          // fire the completion callback, if supplied, on completion of the animation
           onAnimationCompleteCallback();
         }
       }
 
       requestAnimationFrame((timestamp) => {
-        // timestamp is the amount of milliseconds elapsed since 01/01/1970
         startTime = timestamp;
         repeatOften(timestamp);
       });
     }
-    // ease(n) {
-    //   n *= 2;
-    //   if (n < 1) return 0.5 * n * n;
-    //   return - 0.5 * (--n * (n - 2) - 1);
-    // }
   },
   mounted () {
     var d = moment().toDate();
