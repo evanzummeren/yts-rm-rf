@@ -1,6 +1,6 @@
 <template>
   <div class="grid__horizontalcontainer">
-    <div v-for="index in clock" :key="index" class="grid__horizontal">
+    <div v-for="index in clock" :key="generateID() + index" class="grid__horizontal">
       <span ref="timenumber">{{ index }}</span>
     </div>
   </div>
@@ -9,6 +9,7 @@
 <script>
   import _ from 'lodash';
   import anime from 'animejs';
+  import uuidv4 from 'uuid/v4';
 
   export default {
     name: "GridHorizontal",
@@ -27,20 +28,31 @@
       }
 
       this.clock = _.reverse(array);
+
+      this.clock = this.clock.concat(this.addDay());
+      this.clock = this.clock.concat(this.addDay());
       this.mountedAnimation();
       console.log(this.clock);
     },
     methods: {
-      mountedAnimation() {
-        console.log('hmm')
+      generateID() {
+        return uuidv4()
+      },
+      addDay() {
+        let array = [];
+        [...Array(24).keys()].forEach((i) => {
+          array.push(`${i}:00`);
+        })
 
-console.log(this);
+        return _.reverse(array);
+      },
+      mountedAnimation() {
         this.$nextTick(() => {
           anime({
             targets: this.$refs.timenumber,
             opacity: 1,
             duration: 1000,
-     delay: anime.stagger(20, {direction: 'reverse'}),
+            delay: anime.stagger(20, {direction: 'reverse'}),
             easing: 'easeInOutCubic'
           });
         })
@@ -65,11 +77,14 @@ console.log(this);
   // background: orange;
   border-bottom: 1px dotted $lines-off;
   animation: fadein 3s;
+  
 }
 
 .grid__horizontal:nth-child(3n) {
   border-bottom: 1px solid $lines;
   animation: none;
+  scroll-snap-align: start;
+  // border-top: 1px solid orange;
 }
 
 .grid__horizontal span {

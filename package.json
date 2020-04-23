@@ -14,7 +14,10 @@
     "moment": "^2.24.0",
     "rabbit-ear": "^0.1.91",
     "rabbit-ear-svg": "^0.2.0",
-    "vue": "^2.6.11"
+    "scroll-snap": "^3.0.1",
+    "uuid": "^7.0.3",
+    "vue": "^2.6.11",
+    "vue-scrollto": "^2.18.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

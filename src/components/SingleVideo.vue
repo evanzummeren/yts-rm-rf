@@ -105,7 +105,6 @@ import colors from '../colors.json';
         console.log(chartLength);
         let defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
 
-
         for (let i = 0; i < chartLength; i++){
           let filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
           let dropshadow = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow');
@@ -125,7 +124,6 @@ import colors from '../colors.json';
           defs.append(filter);
           filter.append(dropshadow);
         }
-
 
         return defs;
       },
