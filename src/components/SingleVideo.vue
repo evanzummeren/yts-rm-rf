@@ -1,10 +1,23 @@
 <template>
   <div 
     class="container" 
-    v-bind:style="{ height: videoDetails.timeUnits * 16 * 3 + 'px' }"
-  >
+    v-bind:style="{ height: videoDetails.timeUnits * 16 * 3 + 'px' }">
     <div class="svg__element" ref="svg"></div>
     <!-- {{svgElem}} -->
+    <div 
+      class="slice__container"
+      v-bind:style="{ height: videoDetails.timeUnits * 16 * 3 + 'px' }">
+
+      <div 
+        v-for="index in (videoDetails.timeUnits * 3)" :key="index" 
+        class="rippleContainer">
+        <div 
+          class="sliceitself" 
+          ref="ripple"
+          v-bind:style="{ backgroundPosition: randomPos() }">
+        </div>
+      </div>
+    </div>
     <div 
       class="video__frames"
       ref="frames"
@@ -16,6 +29,7 @@
 <script>
 import anime from 'animejs';
 import SVG from 'rabbit-ear-svg';
+import _ from 'lodash';
 import colors from '../colors.json';
 
   export default {
@@ -38,6 +52,7 @@ import colors from '../colors.json';
     mounted () {
       this.bgPosition = "0px 0px"
       this.generateLineChart();
+      this.videoRipple();
       // setInterval(() => { this.changeBgPosition(); }, 1000);
 
       anime({
@@ -59,7 +74,7 @@ import colors from '../colors.json';
         opacity: 1,
         duration: 1500,
         delay: function(el, i) {
-          return i * 100;
+          return i * 100 + 1000;
         },
         easing: 'easeInOutCubic'
       });
@@ -71,7 +86,7 @@ import colors from '../colors.json';
         translateY: [20, 0],
         duration: 1200,
         delay: function(el, i) {
-          return i * 100;
+          return i * 100 + 1000;
         },
         easing: 'easeInOutCubic'
       });
@@ -81,15 +96,47 @@ import colors from '../colors.json';
         targets: 'polygon',
         opacity: 1,
         duration: 3000,
+        delay: 1000,
         easing: 'easeInOutCubic'
       });
 
-
-
     },
     methods: {
-      changeBgPosition() {
-        
+      randomPos() {
+        console.log('yess')
+        return _.random(0,50) + '%' + _.random(0,50) + '%';
+      },
+      shrink() {
+        anime({
+          targets: this.$refs.ripple,
+          width: 0,
+          duration: 1000,
+          opacity: 0,
+          delay: anime.stagger(30),
+          easing: 'easeInOutBack'
+        });
+      },
+      videoRipple() {
+        var _this = this;
+        anime({
+          targets: this.$refs.ripple,
+          width: function(el, i) {
+            let l = _this.$refs.ripple.length ;
+            return ['0', _.random(.7, 1) * (l - i) ]
+          },
+          opacity: [1, .65, .1],
+          duration: function() {
+            return [anime.random(300, 700)]
+          },
+          elasticity: 800,
+          complete: function(anim) {
+            _this.shrink(anim);
+          },
+          delay: anime.stagger(30, {direction: 'reverse'}),
+          easing: 'easeInOutBack'
+        });
+      },
+      changeBgPosition() {  
         this.column++;
         this.bgPosition = `${this.column*94.8}px 0px`;
       },
@@ -237,4 +284,31 @@ import colors from '../colors.json';
   z-index: 20;
 }
 
+.slice__container {
+  max-width: 6rem;
+  // background: blue;
+  z-index: -10;
+  display: flex;
+  position: absolute; 
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.rippleContainer {
+  height: 1rem;
+  align-self: flex-end;
+  min-width: 6rem;
+  // opacity: .5;
+  // background: blue;
+}
+
+.sliceitself {
+  background: url('https://img.youtube.com/vi/j7rJstUseKg/mqdefault.jpg');
+  // background-position: 10% 30%;
+    // filter: grayscale(100%);
+    // background-color: $second-steunkleur;
+    // background-blend-mode: multiply;
+  height: 1rem;
+  width: 0;
+}
 </style>

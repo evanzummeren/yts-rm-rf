@@ -1,7 +1,7 @@
 <template>
   <div class="grid__horizontalcontainer">
     <div v-for="index in clock" :key="generateID() + index" class="grid__horizontal">
-      <span ref="timenumber">{{ index }}</span>
+      <span ref="timenumber" :class="{ 'time' : index === '0:00'}" :data-step="index">{{ index }}</span>
     </div>
   </div>
 </template>

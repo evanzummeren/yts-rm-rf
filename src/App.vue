@@ -17,9 +17,12 @@
 import GridVertical from './components/GridVertical.vue';
 import GridHorizontal from './components/GridHorizontal.vue';
 import SingleVideo from './components/SingleVideo.vue';
+
+/* Libs */
 import moment from 'moment';
 import anime from 'animejs';
-import infiniteScroll from 'vue-infinite-scroll'
+import infiniteScroll from 'vue-infinite-scroll';
+import scrollama from "scrollama";
 
 export default {
   name: 'App',
@@ -104,22 +107,43 @@ export default {
         startTime = timestamp;
         repeatOften(timestamp);
       });
+    },
+    scrollSpy() {
+
+      this.$nextTick(() => {
+      const scroller = scrollama();
+
+      scroller
+      .setup({
+        step: ".time",
+        debug: true
+      })
+      .onStepEnter((response) => {
+        console.log('bla')
+        console.log(response);
+        // { element, index, direction }
+      })
+      // .onStepExit(response => {
+      //   // { element, index, direction }
+      // });
+
+      window.addEventListener("resize", scroller.resize);
+      })
+
     }
   },
   mounted () {
-    var d = moment().toDate();
+
+    this.scrollSpy();
+
+    let d = moment().toDate();
     this.setDates(d);
 
-    var i = 1;
+    let arr = []
 
-
-
-
-        let arr = []
-
-        for (let i = 0; i<100; i++) {
-          arr.push(i*48);
-        }
+    for (let i = 0; i<100; i++) {
+      arr.push(i*48);
+    }
 
     let _this = this;
     let timer;
@@ -138,6 +162,8 @@ export default {
         _this.gridScroll(scrollPos, closest, 300);
       }, 100);  
     });
+
+    var i = 1;
 
     setInterval(() => {
       d = moment().add(i + 100, 'days').toDate();
