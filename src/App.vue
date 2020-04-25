@@ -32,17 +32,44 @@ export default {
   },
   data() {
     return {
+      currentDate: {},
       day: 29,
       month: '',
       year: 2020,
       data: [],
-      busy: false
+      busy: false,
+      scroller: {}
     }
   },
-  methods: {
+  beforeMount() {
+    let d = moment().toDate();
+    this.currentDate = d;
+    this.setDates();
+  },
+  mounted () {
+    // init scrollspy
+    this.scrollSpy();
+
+    // set initial dates
+    let d = moment().toDate();
+    this.setDates(d);
+
+    let _this = this;
+    let timer;
+
+    document.addEventListener("scroll", function() {
+      clearTimeout(timer);
+        timer = setTimeout(function () {
+          let scrollPos = document.documentElement.scrollTop;
+          let roundedScrollPos = Math.round(scrollPos/48) * 48;
+
+          _this.gridScroll(scrollPos, roundedScrollPos, 300);
+        }, 100);  
+    });
+    },
+     methods: {
     loadMore: function() {
       this.busy = true;
-
 
       setTimeout(() => {
         this.$refs.horizontalGrid.reachBottomAddDays();
@@ -60,14 +87,14 @@ export default {
         default: return this.day = `${d}th`;
       }
     },
-    monthString(d) {
-      const month = d.toLocaleString('en', { month: 'long' });
-      this.month = month;
-    },
-    setDates(d) {
-      this.monthString(d);
-      this.ordinal(d.getDate());
-      this.year = d.getFullYear();
+    setDates() {
+      let d = this.currentDate;
+
+      console.log(d);
+
+      this.month = moment(d).format('MMMM');
+      this.ordinal(moment(d).date());
+      this.year = moment(d).format('YYYY');
 
       anime({
         targets: this.$refs.dateElem,
@@ -109,88 +136,32 @@ export default {
       });
     },
     scrollSpy() {
-
+      let _this = this;
       this.$nextTick(() => {
-      const scroller = scrollama();
+        _this.scroller = scrollama();
 
-      scroller
-      .setup({
-        step: ".time",
-        debug: true
-      })
-      .onStepEnter((response) => {
-        console.log('bla')
-        console.log(response);
-        // { element, index, direction }
-      })
-      // .onStepExit(response => {
-      //   // { element, index, direction }
-      // });
+        _this.scroller
+        .setup({
+          step: ".time",
+          debug: false
+        })
+        .onStepEnter((response) => {
+          if(response.direction === "down") {
+            this.currentDate = response.element.dataset.step;
+            this.setDates();
+          }
 
-      window.addEventListener("resize", scroller.resize);
+          if(response.direction === "up") {
+            this.currentDate = moment(response.element.dataset.step).add(1, 'days');
+            this.setDates();
+          }
+        })
+
+        window.addEventListener("resize", _this.scroller.resize);
       })
 
     }
-  },
-  mounted () {
-
-    this.scrollSpy();
-
-    let d = moment().toDate();
-    this.setDates(d);
-
-    let arr = []
-
-    for (let i = 0; i<100; i++) {
-      arr.push(i*48);
-    }
-
-    let _this = this;
-    let timer;
-
-    document.addEventListener("scroll", function() {
-
-    clearTimeout(timer);
-      timer = setTimeout(function () {
-        console.log('Snap to grid')
-        let scrollPos = document.documentElement.scrollTop;
-        let closest = arr.sort( (a, b) => Math.abs(scrollPos - a) - Math.abs(scrollPos - b) )[0];
-        let pixels = closest - scrollPos;
-
-        console.log(pixels);
-
-        _this.gridScroll(scrollPos, closest, 300);
-      }, 100);  
-    });
-
-    var i = 1;
-
-    setInterval(() => {
-      d = moment().add(i + 100, 'days').toDate();
-      this.setDates(d);
-      i++
-    }, 4000)
-
-    this.monthString(d);
-    this.ordinal(d.getDate());
-    this.year = d.getFullYear();
-
-
-
-      /**
-       * custom easing function
-       * [default: easeInOutQuad]
-       * for reference: https://gist.github.com/gre/1650294
-       * @param t normalized time typically in the range [0, 1]
-       **/
-      // easing:  t => t<.5 ? 2*t*t : -1+(4-2*t)*t,
- 
-
-  
-    }
-
- 
-  
+  }
 }
 </script>
 

@@ -1,7 +1,12 @@
 <template>
   <div class="grid__horizontalcontainer">
     <div v-for="index in clock" :key="generateID() + index" class="grid__horizontal">
-      <span ref="timenumber" :class="{ 'time' : index === '0:00'}" :data-step="index">{{ index }}</span>
+      <span 
+        ref="timenumber" 
+        :class="{ 'time' : index.time === '23:00'}" 
+        :data-step="index.date">
+        {{ index.time }}
+      </span>
     </div>
   </div>
 </template>
@@ -10,12 +15,15 @@
   import _ from 'lodash';
   import anime from 'animejs';
   import uuidv4 from 'uuid/v4';
+  import moment from 'moment';
 
   export default {
     name: "GridHorizontal",
     data() {
       return {
-        clock: []
+        clock: [],
+        currentDate: {},
+        dateSubtraction: 0,
       }
     },
     mounted () {
@@ -24,7 +32,7 @@
       let array = []
 
       for(let i = 0; i <= formattedHour; i++) {
-        array.push(`${i}:00`)
+        array.push({time: `${i}:00`, date: moment().toDate()})
       }
 
       this.clock = _.reverse(array);
@@ -32,7 +40,6 @@
       this.clock = this.clock.concat(this.addDay());
       this.clock = this.clock.concat(this.addDay());
       this.mountedAnimation();
-      console.log(this.clock);
     },
     methods: {
       generateID() {
@@ -40,8 +47,12 @@
       },
       addDay() {
         let array = [];
+        this.dateSubtraction = this.dateSubtraction + 1;
+        console.log('hmm')
+        console.log('too subtracct ', this.dateSubtraction);
+        // console.log(this.$parent._data.resize());
         [...Array(24).keys()].forEach((i) => {
-          array.push(`${i}:00`);
+          array.push({time: `${i}:00`, date: moment().subtract(this.dateSubtraction, 'days').toDate()})
         })
 
         return _.reverse(array);
@@ -53,7 +64,14 @@
 
         this.$nextTick(() => {
           console.log(timeLabels.length);
-          let newLabels = []
+          let newLabels = [];
+
+          // console.log(this.$parent._data)
+
+          this.$parent._data.scroller = {};
+
+          this.$parent.scrollSpy();
+          
 
           for (let i = 0; i < timeLabels.length - 24; i++) {
             timeLabels[i].style.opacity = 1;
