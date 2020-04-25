@@ -29,16 +29,30 @@
         <div class="searchbar__picker searchbar__muted">type in keyword</div>
       </div>
     </div>
-  
-    <SingleVideo/>
-    <h2 class="date" ref="dateElem">{{day}}</h2> 
-    <h2 class="month">{{month}}</h2> 
-    <h2 class="year">{{year}}</h2>
 
     <div class="app__box--left"></div>
     <div class="app__box--right"></div>
     <GridVertical/>
+
+    <div class="content">
+  
+    <SingleVideo
+      videoId="mPIlMfdRt6Q"
+      posX=6
+      posY=6
+    />
+
+        <SingleVideo
+      videoId="eHSZRMu_O5U"
+      posX=20
+      posY=12
+    />
+    <h2 class="date" ref="dateElem">{{day}}</h2> 
+    <h2 class="month">{{month}}</h2> 
+    <h2 class="year">{{year}}</h2>
+
     <GridHorizontal ref="horizontalGrid"/>
+    </div>
   </div>
 </template>
 
@@ -367,6 +381,10 @@ li {
   font-weight: 100;
   color: #e6e6e6;
   padding-top: 1rem;
+}
+
+.content {
+  margin-top: 6rem;
 }
 
 </style>

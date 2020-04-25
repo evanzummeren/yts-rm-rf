@@ -1,7 +1,11 @@
-<template>
+<template>  
   <div 
     class="container" 
-    v-bind:style="{ height: videoDetails.timeUnits * 16 * 3 + 'px' }">
+    v-bind:style="{ 
+      height: videoDetails.timeUnits * 16 * 3 + 'px',
+      marginLeft: posX * 16 + 'px',
+      marginTop: posY * 16 + 'px'
+    }">
     <div class="svg__element" ref="svg"></div>
     <!-- {{svgElem}} -->
     <div 
@@ -12,16 +16,22 @@
         v-for="index in (videoDetails.timeUnits * 3)" :key="index" 
         class="rippleContainer">
         <div 
-          class="sliceitself" 
+          class="sliceitself"
           ref="ripple"
-          v-bind:style="{ backgroundPosition: randomPos() }">
+          v-bind:style="{ 
+            backgroundImage: 'url(https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg)',
+            backgroundPosition: randomPos() 
+          }">
         </div>
       </div>
     </div>
     <div 
       class="video__frames"
       ref="frames"
-      v-bind:style="{ backgroundPosition: bgPosition, marginTop: videoDetails.timeUnits * 16 * 3 + 'px' }">
+      v-bind:style="{ 
+        backgroundPosition: bgPosition, marginTop: videoDetails.timeUnits * 16 * 3 + 'px',
+        backgroundImage: 'url(https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg)' 
+        }">
     </div>
   </div>
 </template>
@@ -49,6 +59,7 @@ import colors from '../colors.json';
         linecolors: colors
       }
     },
+    props: ['videoId', 'posX', 'posY'],
     mounted () {
       this.bgPosition = "0px 0px"
       this.generateLineChart();
@@ -259,17 +270,18 @@ import colors from '../colors.json';
   position: absolute;
   z-index: 10;
   width: 6rem;
-  margin-left: 3rem;
-  margin-top: 6rem;
+  // margin-left: 3rem;
+  // margin-top: 6rem;
   // background: orange;
 }
 
 .video__frames {
   width: 6rem;
   height:2rem;
-  background-image: url('../assets/frames.jpg');
-  background-size: 948px 550px;
+  // background-image: url('../assets/frames.jpg');
+  // background-size: 948px 550px;
   // background-size: 948px 540px;
+  background-size: 6rem;
   filter: grayscale(100%);
     background-color: $second-steunkleur;
     background-blend-mode: multiply;
@@ -302,7 +314,7 @@ import colors from '../colors.json';
 }
 
 .sliceitself {
-  background: url('https://img.youtube.com/vi/j7rJstUseKg/mqdefault.jpg');
+  // background: url('https://img.youtube.com/vi/j7rJstUseKg/mqdefault.jpg');
   // background-position: 10% 30%;
     // filter: grayscale(100%);
     // background-color: $second-steunkleur;
