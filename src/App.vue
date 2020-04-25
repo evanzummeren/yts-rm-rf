@@ -42,11 +42,19 @@
       posY=6
     />
 
-        <SingleVideo
+    <SingleVideo
       videoId="eHSZRMu_O5U"
       posX=20
       posY=12
     />
+
+    <SingleVideo
+      videoId="K_3iImC7TdQ"
+      posX=40
+      posY=20
+    />
+
+
     <h2 class="date" ref="dateElem">{{day}}</h2> 
     <h2 class="month">{{month}}</h2> 
     <h2 class="year">{{year}}</h2>
