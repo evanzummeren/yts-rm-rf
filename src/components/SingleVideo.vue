@@ -103,7 +103,6 @@ import colors from '../colors.json';
     },
     methods: {
       randomPos() {
-        console.log('yess')
         return _.random(0,50) + '%' + _.random(0,50) + '%';
       },
       shrink() {

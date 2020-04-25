@@ -1,5 +1,34 @@
 <template>
   <div id="app" ref="container" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="100">
+
+    <div class="category" v-if="category" @click="toggleCategories()">
+      <h4>COVID 19</h4>
+      <ul>
+        <li>Show all related</li>
+        <li>Cover up</li>
+        <li>Emergency responses</li>
+        <li>False cures</li>
+        <li>General</li>
+        <li>Nature of the virus</li>
+        <li>Other</li>
+        <li>Racist associations</li>
+        <li>Status of individuals</li>
+        <li>Weaponizations</li>
+        <li>Self labeling</li>
+        <li>Q-anon</li>
+        <li>Secret society</li>
+      </ul>
+    </div>
+
+    <div class="searchbar">
+      <h1>YT RM -RF</h1>
+      <div class="searchbar__search">
+        <span class="searchbar__text">Search on</span>
+        <div class="searchbar__picker" @click="toggleCategories()">Categories</div>
+        <span class="searchbar__text">or search for keywords</span>
+        <div class="searchbar__picker searchbar__muted">type in keyword</div>
+      </div>
+    </div>
   
     <SingleVideo/>
     <h2 class="date" ref="dateElem">{{day}}</h2> 
@@ -38,7 +67,8 @@ export default {
       year: 2020,
       data: [],
       busy: false,
-      scroller: {}
+      scroller: {},
+      category: false
     }
   },
   beforeMount() {
@@ -67,7 +97,10 @@ export default {
         }, 100);  
     });
     },
-     methods: {
+  methods: {
+    toggleCategories: function() {
+      this.category = !this.category
+    },
     loadMore: function() {
       this.busy = true;
 
@@ -180,15 +213,15 @@ body {
   src: url('./assets/fonts/fl-mono.woff') format('woff'); /* Pretty Modern Browsers */
 }
 
-// @font-face {
-//   font-family: 'DIN-Regular';
-//   src: url('./assets/fonts/DINNextLTPro-Regular.woff') format('woff'); /* Pretty Modern Browsers */
-// }
+@font-face {
+  font-family: 'DIN-Regular';
+  src: url('./assets/fonts/DINNextLTPro-Regular.woff') format('woff'); /* Pretty Modern Browsers */
+}
 
-// @font-face {
-//   font-family: 'DIN-Medium';
-//   src: url('./assets/fonts/DINNextLTPro-Medium.woff') format('woff'); /* Pretty Modern Browsers */
-// }
+@font-face {
+  font-family: 'DIN-Medium';
+  src: url('./assets/fonts/DINNextLTPro-Medium.woff') format('woff'); /* Pretty Modern Browsers */
+}
 
 * {
   box-sizing: border-box;
@@ -260,4 +293,80 @@ h2 {
   right: -2rem;
   margin-top: 35.5rem;
 }
+
+.searchbar {
+  width: calc(100% - 12rem);
+  margin-left: 3rem;
+  margin-top: 3rem;
+  background: $steunkleur;
+  position: absolute;
+  z-index: 100;
+  line-height: 3rem;
+  padding-left: 1.5rem;
+  display: flex;
+}
+
+h1 {
+  font-family: 'DIN-Medium';
+  color: #8C7A07;
+  line-height: 3rem;
+  padding-right: 1rem;
+}
+
+.searchbar__search {
+  height: 3rem;
+
+}
+
+.searchbar__text {
+  font-family: 'Flaco-Mono';
+  text-transform: uppercase;
+  font-size: .75rem;
+  line-height: 3rem;
+  letter-spacing: 1px;
+  padding-left: 1rem;
+  padding-right: .75rem;
+  color: #8C7A07;
+}
+
+.searchbar__picker {
+  font-family: 'DIN-Medium'; 
+  line-height: 3rem;
+  display: initial;
+  border-bottom: 1px dotted black;
+}
+
+.searchbar__muted {
+  // color: #8C7A07;
+  padding-right: 6rem;
+}
+
+.category {
+  position: fixed;
+  background: rgb(253,236,128);
+  background: linear-gradient(30deg, rgba(253,236,128,.7) 0%, rgba(253,236,128,0) 33%), rgba(0,0,0,.4);
+  width: 100%;
+  height: 100%;
+  margin-left:-3rem;
+  margin-top: -3rem;
+  z-index: 100;
+
+  padding-left: 6rem;
+  padding-top: 16rem;
+}
+
+h4 {
+  font-family: 'DIN-Regular';
+  font-size: 3rem;
+  color: white;
+}
+
+li {
+  font-family: 'DIN-Regular';
+  font-size: 1.25rem;
+  font-weight: 100;
+  color: #e6e6e6;
+  padding-top: 1rem;
+}
+
 </style>

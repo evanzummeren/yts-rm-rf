@@ -48,8 +48,6 @@
       addDay() {
         let array = [];
         this.dateSubtraction = this.dateSubtraction + 1;
-        console.log('hmm')
-        console.log('too subtracct ', this.dateSubtraction);
         // console.log(this.$parent._data.resize());
         [...Array(24).keys()].forEach((i) => {
           array.push({time: `${i}:00`, date: moment().subtract(this.dateSubtraction, 'days').toDate()})
