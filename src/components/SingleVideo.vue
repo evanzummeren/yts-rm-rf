@@ -78,8 +78,6 @@ import colors from '../colors.json';
         easing: 'easeInOutCubic'
       });
 
-      //  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg)
-
       anime({
         targets: 'line',
         opacity: 1,
@@ -270,24 +268,14 @@ import colors from '../colors.json';
   position: absolute;
   z-index: 10;
   width: 6rem;
-  // margin-left: 3rem;
-  // margin-top: 6rem;
-  // background: orange;
 }
 
 .video__frames {
   width: 6rem;
   height:2rem;
-  // background-image: url('../assets/frames.jpg');
-  // background-size: 948px 550px;
-  // background-size: 948px 540px;
   background-size: 6rem;
-  // filter: grayscale(100%);
-    // background-color: $second-steunkleur;
-    // background-blend-mode: multiply;
-  // mix-blend-mode: multiply;
   opacity: 1;
-   transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 
 .svg__element {
@@ -297,7 +285,6 @@ import colors from '../colors.json';
 
 .slice__container {
   max-width: 6rem;
-  // background: blue;
   z-index: -10;
   display: flex;
   position: absolute; 
@@ -309,16 +296,12 @@ import colors from '../colors.json';
   height: 1rem;
   align-self: flex-end;
   min-width: 6rem;
-  // opacity: .5;
-  // background: blue;
 }
 
 .sliceitself {
-  // background: url('https://img.youtube.com/vi/j7rJstUseKg/mqdefault.jpg');
-  // background-position: 10% 30%;
-    // filter: grayscale(100%);
-    // background-color: $second-steunkleur;
-    // background-blend-mode: multiply;
+  // filter: grayscale(100%);
+  // background-color: $second-steunkleur;
+  // background-blend-mode: multiply;
   height: 1rem;
   width: 0;
 }

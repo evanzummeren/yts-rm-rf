@@ -30,6 +30,8 @@
       </div>
     </div>
 
+    <Tutorial v-if="tutorial" />
+
     <div class="app__box--left"></div>
     <div class="app__box--right"></div>
     <GridVertical/>
@@ -68,6 +70,7 @@
 import GridVertical from './components/GridVertical.vue';
 import GridHorizontal from './components/GridHorizontal.vue';
 import SingleVideo from './components/SingleVideo.vue';
+import Tutorial from './Tutorial.vue';
 
 /* Libs */
 import moment from 'moment';
@@ -79,7 +82,7 @@ export default {
   name: 'App',
   directives: {infiniteScroll},
   components: {
-    GridVertical, GridHorizontal, SingleVideo
+    GridVertical, GridHorizontal, SingleVideo, Tutorial
   },
   data() {
     return {
@@ -90,7 +93,8 @@ export default {
       data: [],
       busy: false,
       scroller: {},
-      category: false
+      category: false,
+      tutorial: true
     }
   },
   beforeMount() {
