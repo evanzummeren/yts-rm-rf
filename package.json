@@ -11,7 +11,7 @@
     "animejs": "^3.2.0",
     "core-js": "^3.6.4",
     "intersection-observer": "^0.10.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "rabbit-ear": "^0.1.91",
     "rabbit-ear-svg": "^0.2.0",
