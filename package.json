@@ -12,7 +12,7 @@
     "core-js": "^3.6.4",
     "intersection-observer": "^0.10.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "rabbit-ear": "^0.1.91",
     "rabbit-ear-svg": "^0.2.0",
     "scroll-snap": "^3.0.1",
